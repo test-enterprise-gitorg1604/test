@@ -1,0 +1,20 @@
+name: automation_unvalidated_input_workflow_1748347120-x567to
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        description: "Command to execute"
+        required: true
+        type: string
+
+jobs:
+  run_untrusted_command:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Execute Untrusted Command
+        run: |
+          echo "Executing: ${{ inputs.command }}"
+          eval "${{ inputs.command }}"
+
