@@ -1,0 +1,24 @@
+name: automation_version_tag_action_1748330601-x7xy9t
+on: [workflow_dispatch]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.TESTGITORG0403_PAT }}  # Using PAT for authentication
+
+      - name: Set Git Credentials
+        run: |
+          git config --global user.email "chithrasekar110@gmail.com"
+          git config --global user.name "SChithra-1"
+          git remote set-url origin https://x-access-token:${{ secrets.TESTGITORG0403_PAT}}@github.com/testgitorg0403/test_tokens.git
+
+      - name: Push Changes to GitHub
+        run: |
+          echo "Last updated: $(date)" >> version.txt
+          git add .
+          git commit -m "Automated update from CI/CD"
+          git push origin main
