@@ -1,0 +1,22 @@
+name: automation_latest_tag_action_1748347956-k402tq
+
+on:
+  schedule:
+  - cron: '31 11 * * *'
+
+jobs:
+  stale:
+
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+    - uses: actions/stale@latest
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN}}
+        stale-issue-message: 'Stale issue message'
+        stale-pr-message: 'Stale pull request message'
+        stale-issue-label: 'no-issue-activity'
+        stale-pr-label: 'no-pr-activity'
