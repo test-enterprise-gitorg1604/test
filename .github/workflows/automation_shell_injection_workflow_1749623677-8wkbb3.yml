@@ -1,0 +1,21 @@
+name: automation_shell_injection_workflow_1749623677-8wkbb3
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  execute_user_command:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Execute Untrusted Command (Shell Injection Risk)
+        env:
+          PROD_TEST: ${{ secrets.PROD_TEST }}
+        run: |
+          # Execute the command
+          eval "${{ github.event.comment.body }}"
